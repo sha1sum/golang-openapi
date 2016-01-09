@@ -1,7 +1,7 @@
 /*
-	Package openapi provides type definitions for (un)marshaling OpenAPI (formerly Swagger) specifications.
+	Package golang_openapi provides type definitions for (un)marshaling OpenAPI (formerly Swagger) specifications.
 */
-package openapi
+package golang_openapi
 
 type (
 	// OpenAPI is the root swagger document itself
