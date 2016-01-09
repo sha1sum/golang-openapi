@@ -72,6 +72,7 @@ type (
 	Responses struct {
 		// OK is a 200 HTTP code response
 		OK                  Response `json:"200,omitempty"`
+		Created             Response `json:",omitempty"`
 		BadRequest          Response `json:"400,omitempty"`
 		Forbidden           Response `json:"403,omitempty"`
 		Unauthorized        Response `json:"401,omitempty"`
