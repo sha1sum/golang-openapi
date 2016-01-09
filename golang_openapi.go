@@ -72,14 +72,15 @@ type (
 	Responses struct {
 		// OK is a 200 HTTP code response
 		OK                  Response `json:"200,omitempty"`
-		Created             Response `json:",omitempty"`
+		Created             Response `json:"201,omitempty"`
 		BadRequest          Response `json:"400,omitempty"`
 		Forbidden           Response `json:"403,omitempty"`
 		Unauthorized        Response `json:"401,omitempty"`
 		NotFound            Response `json:"404,omitempty"`
-		NotImplemented      Response `json:"501,omitempty"`
 		Conflict            Response `json:"409,omitempty"`
+		UnprocessableEntity Response `json:"422,omitempty"`
 		InternalServerError Response `json:"500,omitempty"`
+		NotImplemented      Response `json:"501,omitempty"`
 	}
 
 	// Response is an individual response for an HTTP request
