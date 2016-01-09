@@ -71,7 +71,14 @@ type (
 	// Responses is a list of possible responses to an HTTP request
 	Responses struct {
 		// OK is a 200 HTTP code response
-		OK Response `json:"200,omitempty"`
+		OK                  Response `json:"200,omitempty"`
+		BadRequest          Response `json:"400,omitempty"`
+		Forbidden           Response `json:"403,omitempty"`
+		Unauthorized        Response `json:"401,omitempty"`
+		NotFound            Response `json:"404,omitempty"`
+		NotImplemented      Response `json:"501,omitempty"`
+		Conflict            Response `json:"409,omitempty"`
+		InternalServerError Response `json:"500,omitempty"`
 	}
 
 	// Response is an individual response for an HTTP request
