@@ -123,4 +123,9 @@ type (
 		// Items is an option ItemRef for the items in the Property if the Property references another item type
 		Items ItemRef `json:"items,omitempty"`
 	}
+
+	// Definer is an interface for objects that can define Definition specifications
+	Definer interface {
+		OpenAPIDefinitions() map[string]Definition
+	}
 )
