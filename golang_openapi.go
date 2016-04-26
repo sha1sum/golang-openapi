@@ -22,6 +22,10 @@ type (
 		Paths map[string]map[string]Request `json:"paths,omitempty"`
 		// Definitions define type definitions for use in requests and responses
 		Definitions map[string]Definition `json:"definitions,omitempty"`
+		// Security indicates the required security definition for operations performed
+		Security []map[string][]string `json:"security,omitempty"`
+		// SecurityDefinitions specifies security requirements
+		SecurityDefinitions map[string]SecurityDefinition `json:"securityDefinitions,omitempty"`
 	}
 
 	// Info is an OpenAPI section for basic information about the API
@@ -44,8 +48,8 @@ type (
 		Parameters []Parameter `json:"parameters,omitempty"`
 		// Tags is an array of tags for the request
 		Tags []string `json:"tags,omitempty"`
-		// Responses houses possible responses to a requestj
-		Responses Responses `json:"responses,omitempty"`
+		// Responses houses possible responses to a request
+		Responses map[string]Response `json:"responses,omitempty"`
 	}
 
 	// Parameter is an HTTP request parameter
@@ -66,21 +70,8 @@ type (
 		// Format further specifies the format of the data in the parameter and is not needed if Query=="body".
 		// See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#dataTypeFormat
 		Format string `json:"format,omitempty"`
-	}
-
-	// Responses is a list of possible responses to an HTTP request
-	Responses struct {
-		// OK is a 200 HTTP code response
-		OK                  Response `json:"200,omitempty"`
-		Created             Response `json:"201,omitempty"`
-		BadRequest          Response `json:"400,omitempty"`
-		Forbidden           Response `json:"403,omitempty"`
-		Unauthorized        Response `json:"401,omitempty"`
-		NotFound            Response `json:"404,omitempty"`
-		Conflict            Response `json:"409,omitempty"`
-		UnprocessableEntity Response `json:"422,omitempty"`
-		InternalServerError Response `json:"500,omitempty"`
-		NotImplemented      Response `json:"501,omitempty"`
+		// Schema declares the schema for body parameters
+		Schema *Schema `json:"schema,omitempty"`
 	}
 
 	// Response is an individual response for an HTTP request
@@ -96,12 +87,17 @@ type (
 		// Type is the type of response returned
 		Type string `json:"type,omitempty"`
 		// Items is an item type reference for the response
-		Items ItemRef `json:"items,omitempty"`
+		Items *ItemRef `json:"items,omitempty"`
+		// Ref is a reference (if the type is not an array)
+		Ref string `json:"$ref,omitempty"`
 	}
 
 	// ItemRef is a reference to the type of item used in a request or a response
 	ItemRef struct {
+		// Ref indicates a reference to a definition (if any)
 		Ref string `json:"$ref,omitempty"`
+		// Type indicates the type of items for an array
+		Type string `json:"type,omitempty"`
 	}
 
 	// Definition is a type definition for an HTTP request or response
@@ -110,6 +106,8 @@ type (
 		Type string `json:"type,omitempty"`
 		// Properties is a list of properties of an object
 		Properties map[string]Property `json:"properties,omitempty"`
+		// Required is an array of strings representing the names of the required parameters
+		Required []string `json:"required,omitempty"`
 	}
 
 	// Property is a definition of a property of a Definition
@@ -121,7 +119,18 @@ type (
 		// Description is a description of the property
 		Description string `json:"description,omitempty"`
 		// Items is an option ItemRef for the items in the Property if the Property references another item type
-		Items ItemRef `json:"items,omitempty"`
+		Items *ItemRef `json:"items,omitempty"`
+		// Ref is a reference for the type of object if the Type=="object"
+		Ref string `json:"$ref,omitempty"`
+	}
+
+	SecurityDefinition struct {
+		// Type determines the type of security used
+		Type string `json:"type,omitempty"`
+		// Name is the name of the parameter used for security enforcement
+		Name string `json:"name,omitempty"`
+		// In indicates one of "query" or "header" depending on where the security is verfied in the request
+		In string `json:"in,omitempty"`
 	}
 
 	// Definer is an interface for objects that can define Definition specifications
